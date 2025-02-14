@@ -6,12 +6,9 @@
 package edu.eci.arsw.blueprints.services;
 
 import edu.eci.arsw.blueprints.model.Blueprint;
-import edu.eci.arsw.blueprints.model.Point;
 import edu.eci.arsw.blueprints.persistence.BlueprintNotFoundException;
 import edu.eci.arsw.blueprints.persistence.BlueprintPersistenceException;
 import edu.eci.arsw.blueprints.persistence.BlueprintsPersistence;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,16 +19,28 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class BlueprintsServices {
-   
-    @Autowired
     BlueprintsPersistence bpp;
-    
+
+    @Autowired
+    public BlueprintsServices(BlueprintsPersistence bpp) {
+        this.bpp = bpp;
+    }
+
+    /**
+     * This method should add a new blueprint.
+     * @param bp the new blueprint
+     * @throws BlueprintPersistenceException if a blueprint with the same name already exists
+     */
     public void addNewBlueprint(Blueprint bp) throws BlueprintPersistenceException {
         bpp.saveBlueprint(bp);
     }
-    
-    public Set<Blueprint> getAllBlueprints() throws BlueprintNotFoundException {
-        return null;
+
+    /**
+     * This method should return all the available blueprints.
+     * @return all the blueprints
+     */
+    public Set<Blueprint> getAllBlueprints() {
+        return bpp.getAllBlueprints();
     }
     
     /**
@@ -49,10 +58,9 @@ public class BlueprintsServices {
      * 
      * @param author blueprint's author
      * @return all the blueprints of the given author
-     * @throws BlueprintNotFoundException if the given author doesn't exist
      */
-    public Set<Blueprint> getBlueprintsByAuthor(String author) throws BlueprintNotFoundException{
-        return bpp
+    public Set<Blueprint> getBlueprintsByAuthor(String author) {
+        return bpp.getBlueprintsByAuthor(author);
     }
     
 }

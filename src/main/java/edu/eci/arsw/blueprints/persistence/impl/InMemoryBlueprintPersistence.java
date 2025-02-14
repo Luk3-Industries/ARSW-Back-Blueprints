@@ -13,7 +13,9 @@ import edu.eci.arsw.blueprints.persistence.BlueprintsPersistence;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  *
@@ -47,6 +49,27 @@ public class InMemoryBlueprintPersistence implements BlueprintsPersistence{
         return blueprints.get(new Tuple<>(author, bprintname));
     }
 
-    
-    
+    @Override
+    public Set<Blueprint> getAllBlueprints() {
+        Set<Blueprint> allBlueprints = new HashSet<>();
+        blueprints
+                .forEach((key, value) -> allBlueprints.add(value));
+
+        // Delete stub data
+        allBlueprints.removeIf(bp -> bp.getAuthor().equals("_authorname_"));
+        return allBlueprints;
+    }
+
+    @Override
+    public Set<Blueprint> getBlueprintsByAuthor(String author) {
+        Set<Blueprint> authorBlueprints = new HashSet<>();
+        blueprints
+                .entrySet()
+                .stream()
+                .filter(bp -> bp.getKey().getElem1().equals(author))
+                .forEachOrdered(bp -> authorBlueprints.add(bp.getValue()));
+        return authorBlueprints;
+    }
+
+
 }
