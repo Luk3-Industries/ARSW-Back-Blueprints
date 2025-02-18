@@ -31,7 +31,6 @@ public class InMemoryBlueprintPersistence implements BlueprintsPersistence{
         Point[] pts=new Point[]{new Point(140, 140),new Point(115, 115)};
         Blueprint bp=new Blueprint("_authorname_", "_bpname_ ",pts);
         blueprints.put(new Tuple<>(bp.getAuthor(),bp.getName()), bp);
-        
     }    
     
     @Override
@@ -39,14 +38,16 @@ public class InMemoryBlueprintPersistence implements BlueprintsPersistence{
         if (blueprints.containsKey(new Tuple<>(bp.getAuthor(),bp.getName()))){
             throw new BlueprintPersistenceException("The given blueprint already exists: "+bp);
         }
-        else{
-            blueprints.put(new Tuple<>(bp.getAuthor(),bp.getName()), bp);
-        }        
+        blueprints.put(new Tuple<>(bp.getAuthor(),bp.getName()), bp);
     }
 
     @Override
     public Blueprint getBlueprint(String author, String bprintname) throws BlueprintNotFoundException {
-        return blueprints.get(new Tuple<>(author, bprintname));
+        Blueprint blueprint =  blueprints.get(new Tuple<>(author, bprintname));
+        if (blueprint == null) {
+            throw new BlueprintNotFoundException("The given blueprint does not exist: " + author + " " + bprintname);
+        }
+        return blueprint;
     }
 
     @Override
@@ -54,7 +55,6 @@ public class InMemoryBlueprintPersistence implements BlueprintsPersistence{
         Set<Blueprint> allBlueprints = new HashSet<>();
         blueprints
                 .forEach((key, value) -> allBlueprints.add(value));
-
         // Delete stub data
         allBlueprints.removeIf(bp -> bp.getAuthor().equals("_authorname_"));
         return allBlueprints;
@@ -70,6 +70,5 @@ public class InMemoryBlueprintPersistence implements BlueprintsPersistence{
                 .forEachOrdered(bp -> authorBlueprints.add(bp.getValue()));
         return authorBlueprints;
     }
-
 
 }

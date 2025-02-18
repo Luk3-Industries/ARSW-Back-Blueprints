@@ -99,11 +99,11 @@ public class InMemoryPersistenceTest {
         Blueprint bpFound = null;
         try {
             bpFound = ibpp.getBlueprint("john", "thepaint");
+            fail("Should fail with error: ");
         } catch (BlueprintNotFoundException ex) {
-            fail("Should not fail with error: " + ex.getMessage());
-        }
-        // Assert
-        assertNull("The blueprint returned is not the expected one", bpFound);
+            // Assert
+            assertNull("The blueprint returned is not the expected one", bpFound);
+            assertTrue("Los contenidos de los strings no son iguales", ex.getMessage().equals("The given blueprint does not exist: " + "john " + "thepaint"));        }
     }
 
     @Test
