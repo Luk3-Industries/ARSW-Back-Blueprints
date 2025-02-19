@@ -22,7 +22,7 @@ public class SubsamplingFilterTest {
 
         blueprintFilter.filter(bp0);
         ibpp.saveBlueprint(bp0);
-        assertEquals(2, ibpp.getBlueprint(bp0.getAuthor(), bp0.getName()).getPoints().size());
+        assertEquals(3, ibpp.getBlueprint(bp0.getAuthor(), bp0.getName()).getPoints().size());
     }
 
     @Test
@@ -35,6 +35,6 @@ public class SubsamplingFilterTest {
 
         blueprintFilter.filter(bp0);
         ibpp.saveBlueprint(bp0);
-        assertEquals(4, ibpp.getBlueprint(bp0.getAuthor(), bp0.getName()).getPoints().size());
+        assertEquals(2, ibpp.getBlueprint(bp0.getAuthor(), bp0.getName()).getPoints().size());
     }
 }

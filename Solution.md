@@ -17,7 +17,7 @@
 ---
 
 ## Introducción
-
+En este laboratorio, se trabajó en la implementación de un sistema de gestión de planos utilizando el framework Spring para la inyección de dependencias. El objetivo principal fue configurar la aplicación para que funcione bajo un esquema de inyección de dependencias, implementar operaciones de consulta y registro de planos, y aplicar filtros para procesar los datos antes de retornarlos. Se exploraron conceptos clave de Spring, como la anotación @Autowired para la inyección de dependencias y la configuración de beans mediante archivos XML.
 
 ---
 
@@ -130,6 +130,35 @@
 > 
 > ![](img/picture3.png)
 
+> ### Punto 3
+> Para resolver este ejercicio creamos en la clase main diferentes metodos para probar la funcionalidad de la clase `BlueprintServices`:
+> Se puede verificar su funcionamiento en la clase [`Main`](src/main/java/edu/eci/arsw/blueprints/Main.java)
 
+> ### Punto 4
+> Para resolver esto primero creamos la interfaz `BlueprintsFilter` en el paquete `edu.eci.arsw.blueprints.filter` y luego creamos las clases `RedundancyFilter` y `SubsamplingFilter` que implementan la interfaz `BlueprintsFilter`.
+> La clase [`RedundancyFilter`](src/main/java/edu/eci/arsw/blueprints/services/impl/RedundancyFilter.java) se encarga de eliminar los puntos consecutivos que sean repetidos. 
+> Mientras que la clase [`SubsamplingFilter`](src/main/java/edu/eci/arsw/blueprints/services/impl/SubsamplingFilter.java) se encarga de eliminar 1 de cada 2 puntos del plano, de manera intercalada.
 
+> ### Punto 5
+> La interfaz mencionada en el anterior punto se creo para poder más adelante poder hacer la inyección de dependencias en la clase `BlueprintServices` de uno de los dos filtros. 
+> Después realizamos la inyección por constructor de las diferentes clases de filtro en la clase `BlueprintServices`:
+> ```java
+> @Service
+> public class BlueprintsServices {
+>
+>    BlueprintsPersistence bpp;
+>    private BlueprintFilter blueprintFilter;
+>
+>    @Autowired
+>    public BlueprintsServices(BlueprintsPersistence bpp, @Qualifier("redundancyFilter") BlueprintFilter blueprintFilter) {
+>        this.bpp = bpp;
+>        this.blueprintFilter = blueprintFilter;
+>    }
+> // ...
+> }
 ### Conclusiones
+Conclusiones
+1. Inyección de Dependencias: La configuración de la inyección de dependencias mediante Spring permite desacoplar las clases y facilita la gestión de las dependencias, mejorando la mantenibilidad y escalabilidad del código.
+2. Configuración de Spring: La correcta configuración de Spring, tanto mediante anotaciones como mediante archivos XML, es crucial para el funcionamiento adecuado de la inyección de dependencias y la detección de beans.
+3. Pruebas Unitarias: La importancia de las pruebas unitarias se evidenció al verificar la funcionalidad de las operaciones implementadas, asegurando que el sistema se comporte según lo esperado.
+4. Flexibilidad y Extensibilidad: El uso de interfaces y la inyección de dependencias permiten que el sistema sea flexible y extensible, facilitando la adición de nuevas funcionalidades o la modificación de las existentes sin afectar el resto del sistema.
