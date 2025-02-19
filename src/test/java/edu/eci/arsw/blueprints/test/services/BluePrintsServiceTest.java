@@ -2,9 +2,11 @@ package edu.eci.arsw.blueprints.test.services;
 
 import edu.eci.arsw.blueprints.model.Blueprint;
 import edu.eci.arsw.blueprints.model.Point;
+import edu.eci.arsw.blueprints.persistence.BlueprintFilter;
 import edu.eci.arsw.blueprints.persistence.BlueprintNotFoundException;
 import edu.eci.arsw.blueprints.persistence.BlueprintPersistenceException;
 import edu.eci.arsw.blueprints.persistence.impl.InMemoryBlueprintPersistence;
+import edu.eci.arsw.blueprints.persistence.impl.RedundancyFilter;
 import edu.eci.arsw.blueprints.services.BlueprintsServices;
 import org.junit.Test;
 
@@ -17,7 +19,8 @@ public class BluePrintsServiceTest {
     public void getBlueprintTest() {
         // Arrange
         InMemoryBlueprintPersistence ibpp = new InMemoryBlueprintPersistence();
-        BlueprintsServices blueprintsServices = new BlueprintsServices(ibpp);
+        BlueprintFilter blueprintFilter = new RedundancyFilter();
+        BlueprintsServices blueprintsServices = new BlueprintsServices(ibpp, blueprintFilter);
 
         Point[] pts = new Point[]{new Point(61, 2), new Point(80, 37)};
         Blueprint bp = new Blueprint("john", "thepaint", pts);
@@ -40,13 +43,15 @@ public class BluePrintsServiceTest {
     public void shouldNotGetBluePrint(){
         // Arrange
         InMemoryBlueprintPersistence ibpp = new InMemoryBlueprintPersistence();
-        BlueprintsServices blueprintsServices = new BlueprintsServices(ibpp);
+        BlueprintFilter blueprintFilter = new RedundancyFilter();
+        BlueprintsServices blueprintsServices = new BlueprintsServices(ibpp, blueprintFilter);
         // Act
         Blueprint bpFound = null;
         try {
             bpFound = blueprintsServices.getBlueprint("john", "thepaint");
+            fail("Should not find the blueprint");
         } catch (BlueprintNotFoundException ex) {
-            fail("Should not fail with error: " + ex.getMessage());
+            assertEquals("The given blueprint does not exist: john thepaint", ex.getMessage());
         }
         // Assert
         assertNull("The blueprint returned is not the expected one", bpFound);
@@ -56,7 +61,8 @@ public class BluePrintsServiceTest {
     public void shouldGetAllBlueprintsByAuthor() {
         // Arrange
         InMemoryBlueprintPersistence ibpp = new InMemoryBlueprintPersistence();
-        BlueprintsServices blueprintsServices = new BlueprintsServices(ibpp);
+        BlueprintFilter blueprintFilter = new RedundancyFilter();
+        BlueprintsServices blueprintsServices = new BlueprintsServices(ibpp, blueprintFilter);
         Set<Blueprint> blueprints = null;
         int times = 100;
         String name = "Same name";
@@ -84,7 +90,8 @@ public class BluePrintsServiceTest {
     public void shouldNotGetBluePrintsByAuthor(){
         // Arrange
         InMemoryBlueprintPersistence ibpp = new InMemoryBlueprintPersistence();
-        BlueprintsServices blueprintsServices = new BlueprintsServices(ibpp);
+        BlueprintFilter blueprintFilter = new RedundancyFilter();
+        BlueprintsServices blueprintsServices = new BlueprintsServices(ibpp, blueprintFilter);
         Set<Blueprint> blueprints = null;
 
         // Act
@@ -97,7 +104,8 @@ public class BluePrintsServiceTest {
     @Test
     public void shouldGetAllBlueprints() {
         // Arrange
-        BlueprintsServices blueprintsServices = new BlueprintsServices(new InMemoryBlueprintPersistence());
+        BlueprintFilter blueprintFilter = new RedundancyFilter();
+        BlueprintsServices blueprintsServices = new BlueprintsServices(new InMemoryBlueprintPersistence(), blueprintFilter);
         Set<Blueprint> blueprints = null;
         int times = 100;
         for (int i = 0; i < times; i++) {
@@ -119,7 +127,8 @@ public class BluePrintsServiceTest {
     @Test
     public void shouldNotReturnBluePrints(){
         // Arrange
-        BlueprintsServices blueprintsServices = new BlueprintsServices(new InMemoryBlueprintPersistence());
+        BlueprintFilter blueprintFilter = new RedundancyFilter();
+        BlueprintsServices blueprintsServices = new BlueprintsServices(new InMemoryBlueprintPersistence(), blueprintFilter);
         Set<Blueprint> blueprints = null;
         // Act
         blueprints = blueprintsServices.getAllBlueprints();

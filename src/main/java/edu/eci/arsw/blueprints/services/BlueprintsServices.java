@@ -6,11 +6,13 @@
 package edu.eci.arsw.blueprints.services;
 
 import edu.eci.arsw.blueprints.model.Blueprint;
+import edu.eci.arsw.blueprints.persistence.BlueprintFilter;
 import edu.eci.arsw.blueprints.persistence.BlueprintNotFoundException;
 import edu.eci.arsw.blueprints.persistence.BlueprintPersistenceException;
 import edu.eci.arsw.blueprints.persistence.BlueprintsPersistence;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 /**
@@ -21,9 +23,12 @@ import org.springframework.stereotype.Service;
 public class BlueprintsServices {
     BlueprintsPersistence bpp;
 
+    private BlueprintFilter blueprintFilter;
+
     @Autowired
-    public BlueprintsServices(BlueprintsPersistence bpp) {
+    public BlueprintsServices(BlueprintsPersistence bpp, @Qualifier("redundancyFilter") BlueprintFilter blueprintFilter) {
         this.bpp = bpp;
+        this.blueprintFilter = blueprintFilter;
     }
 
     /**
@@ -32,6 +37,7 @@ public class BlueprintsServices {
      * @throws BlueprintPersistenceException if a blueprint with the same name already exists
      */
     public void addNewBlueprint(Blueprint bp) throws BlueprintPersistenceException {
+        blueprintFilter.filter(bp);
         bpp.saveBlueprint(bp);
     }
 

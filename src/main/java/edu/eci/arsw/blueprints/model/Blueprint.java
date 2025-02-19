@@ -85,7 +85,8 @@ public class Blueprint {
         
         return true;
     }
-    
-    
-    
+
+    public void setPoints(List<Point> newPoints) {
+        this.points = newPoints;
+    }
 }
