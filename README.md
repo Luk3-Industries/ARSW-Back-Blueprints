@@ -2,6 +2,16 @@
 
 ## Arquitecturas de Software
 
+## Integrantes
+
+### Santiago Avellaneda y Miguel Motta
+
+> [!IMPORTANT]  
+> El primer punto, se adjuntó en otro repositorio, el cual se encuentra en el siguiente enlace [Introducción Anotaciones Springboot](https://github.com/MIGUEL-MOTTA-U/ARSW-4-Annotations)
+> La entrega se anexó como el archivo [`Solution`](Solution.md)
+------------
+
+
 # Componentes y conectores - Parte I.
 
 El ejercicio se debe traer terminado para el siguiente laboratorio (Parte II).
