@@ -1,4 +1,4 @@
-package edu.eci.arsw.blueprints.persistence;
+package edu.eci.arsw.blueprints.services;
 
 import edu.eci.arsw.blueprints.model.Blueprint;
 

@@ -2,11 +2,11 @@ package edu.eci.arsw.blueprints.test.services;
 
 import edu.eci.arsw.blueprints.model.Blueprint;
 import edu.eci.arsw.blueprints.model.Point;
-import edu.eci.arsw.blueprints.persistence.BlueprintFilter;
+import edu.eci.arsw.blueprints.services.BlueprintFilter;
 import edu.eci.arsw.blueprints.persistence.BlueprintNotFoundException;
 import edu.eci.arsw.blueprints.persistence.BlueprintPersistenceException;
 import edu.eci.arsw.blueprints.persistence.impl.InMemoryBlueprintPersistence;
-import edu.eci.arsw.blueprints.persistence.impl.RedundancyFilter;
+import edu.eci.arsw.blueprints.services.impl.RedundancyFilter;
 import edu.eci.arsw.blueprints.services.BlueprintsServices;
 import org.junit.Test;
 
