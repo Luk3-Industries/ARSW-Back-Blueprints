@@ -3,13 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.eci.arsw.blueprints.services;
+package edu.eci.arsw.blueprint.services.impl;
 
-import edu.eci.arsw.blueprints.model.Blueprint;
-import edu.eci.arsw.blueprints.persistence.BlueprintNotFoundException;
-import edu.eci.arsw.blueprints.persistence.BlueprintPersistenceException;
-import edu.eci.arsw.blueprints.persistence.BlueprintsPersistence;
+import edu.eci.arsw.blueprint.model.Blueprint;
+import edu.eci.arsw.blueprint.persistence.BlueprintNotFoundException;
+import edu.eci.arsw.blueprint.persistence.BlueprintPersistenceException;
+import edu.eci.arsw.blueprint.persistence.BlueprintsPersistence;
 import java.util.Set;
+
+import edu.eci.arsw.blueprint.services.BlueprintFilter;
+import edu.eci.arsw.blueprint.services.BlueprintService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -19,13 +22,13 @@ import org.springframework.stereotype.Service;
  * @author hcadavid
  */
 @Service
-public class BlueprintsServices {
+public class BlueprintsServicesComponent implements BlueprintService {
 
     BlueprintsPersistence bpp;
     private BlueprintFilter blueprintFilter;
 
     @Autowired
-    public BlueprintsServices(BlueprintsPersistence bpp, @Qualifier("redundancyFilter") BlueprintFilter blueprintFilter) {
+    public BlueprintsServicesComponent(BlueprintsPersistence bpp, @Qualifier("redundancyFilter") BlueprintFilter blueprintFilter) {
         this.bpp = bpp;
         this.blueprintFilter = blueprintFilter;
     }
@@ -35,6 +38,7 @@ public class BlueprintsServices {
      * @param bp the new blueprint
      * @throws BlueprintPersistenceException if a blueprint with the same name already exists
      */
+    @Override
     public void addNewBlueprint(Blueprint bp) throws BlueprintPersistenceException {
         blueprintFilter.filter(bp);
         bpp.saveBlueprint(bp);
@@ -44,6 +48,7 @@ public class BlueprintsServices {
      * This method should return all the available blueprints.
      * @return all the blueprints
      */
+    @Override
     public Set<Blueprint> getAllBlueprints() {
         return bpp.getAllBlueprints();
     }
@@ -55,6 +60,7 @@ public class BlueprintsServices {
      * @return the blueprint of the given name created by the given author
      * @throws BlueprintNotFoundException if there is no such blueprint
      */
+    @Override
     public Blueprint getBlueprint(String author,String name) throws BlueprintNotFoundException{
         return bpp.getBlueprint(author, name);
     }
@@ -64,6 +70,7 @@ public class BlueprintsServices {
      * @param author blueprint's author
      * @return all the blueprints of the given author
      */
+    @Override
     public Set<Blueprint> getBlueprintsByAuthor(String author) {
         return bpp.getBlueprintsByAuthor(author);
     }

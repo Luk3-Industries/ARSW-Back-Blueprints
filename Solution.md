@@ -63,11 +63,11 @@ En este laboratorio, se trabajó en la implementación de un sistema de gestión
 >
 > </beans>
 > ```
-> Luego, en la clase [`BlueprintServices`](src/main/java/edu/eci/arsw/blueprints/services/BlueprintsServices.java) agregamos la anotación `@Service` para que Springboot pueda inyectar la dependencia de la clase 
-> [`InMemoryBlueprintPersistence`](src/main/java/edu/eci/arsw/blueprints/persistence/impl/InMemoryBlueprintPersistence.java) en la clase `BlueprintServices`.:
+> Luego, en la clase [`BlueprintServices`](src/main/java/edu/eci/arsw/blueprint/services/BlueprintsServices.java) agregamos la anotación `@Service` para que Springboot pueda inyectar la dependencia de la clase 
+> [`InMemoryBlueprintPersistence`](src/main/java/edu/eci/arsw/blueprint/persistence/impl/InMemoryBlueprintPersistence.java) en la clase `BlueprintServices`.:
 > 
 > 
-> #### Clase [`BlueprintServices`](src/main/java/edu/eci/arsw/blueprints/services/BlueprintsServices.java)
+> #### Clase [`BlueprintServices`](src/main/java/edu/eci/arsw/blueprint/services/BlueprintsServices.java)
 > 
 > ```java
 > @Service
@@ -82,7 +82,7 @@ En este laboratorio, se trabajó en la implementación de un sistema de gestión
 > }
 > ```
 > 
-> #### Clase [`InMemoryBlueprintPersistence`](src/main/java/edu/eci/arsw/blueprints/persistence/impl/InMemoryBlueprintPersistence.java)
+> #### Clase [`InMemoryBlueprintPersistence`](src/main/java/edu/eci/arsw/blueprint/persistence/impl/InMemoryBlueprintPersistence.java)
 > ```java
 > @Service
 > public class InMemoryBlueprintPersistence implements BlueprintsPersistence {
@@ -132,12 +132,12 @@ En este laboratorio, se trabajó en la implementación de un sistema de gestión
 
 > ### Punto 3
 > Para resolver este ejercicio creamos en la clase main diferentes metodos para probar la funcionalidad de la clase `BlueprintServices`:
-> Se puede verificar su funcionamiento en la clase [`Main`](src/main/java/edu/eci/arsw/blueprints/Main.java)
+> Se puede verificar su funcionamiento en la clase [`Main`](src/main/java/edu/eci/arsw/blueprint/Main.java)
 
 > ### Punto 4
 > Para resolver esto primero creamos la interfaz `BlueprintsFilter` en el paquete `edu.eci.arsw.blueprints.filter` y luego creamos las clases `RedundancyFilter` y `SubsamplingFilter` que implementan la interfaz `BlueprintsFilter`.
-> La clase [`RedundancyFilter`](src/main/java/edu/eci/arsw/blueprints/services/impl/RedundancyFilter.java) se encarga de eliminar los puntos consecutivos que sean repetidos. 
-> Mientras que la clase [`SubsamplingFilter`](src/main/java/edu/eci/arsw/blueprints/services/impl/SubsamplingFilter.java) se encarga de eliminar 1 de cada 2 puntos del plano, de manera intercalada.
+> La clase [`RedundancyFilter`](src/main/java/edu/eci/arsw/blueprint/services/impl/RedundancyFilter.java) se encarga de eliminar los puntos consecutivos que sean repetidos. 
+> Mientras que la clase [`SubsamplingFilter`](src/main/java/edu/eci/arsw/blueprint/services/impl/SubsamplingFilter.java) se encarga de eliminar 1 de cada 2 puntos del plano, de manera intercalada.
 
 > ### Punto 5
 > La interfaz mencionada en el anterior punto se creo para poder más adelante poder hacer la inyección de dependencias en la clase `BlueprintServices` de uno de los dos filtros. 

@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.eci.arsw.blueprints.persistence;
+package edu.eci.arsw.blueprint.persistence;
 
-import edu.eci.arsw.blueprints.model.Blueprint;
+import edu.eci.arsw.blueprint.model.Blueprint;
 
 import java.util.Set;
 

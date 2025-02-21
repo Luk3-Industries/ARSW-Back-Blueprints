@@ -5,12 +5,11 @@
  */
 package edu.eci.arsw.blueprints.test.persistence.impl;
 
-import edu.eci.arsw.blueprints.model.Blueprint;
-import edu.eci.arsw.blueprints.model.Point;
-import edu.eci.arsw.blueprints.persistence.BlueprintNotFoundException;
-import edu.eci.arsw.blueprints.persistence.BlueprintPersistenceException;
-import edu.eci.arsw.blueprints.persistence.impl.InMemoryBlueprintPersistence;
-import edu.eci.arsw.blueprints.services.BlueprintsServices;
+import edu.eci.arsw.blueprint.model.Blueprint;
+import edu.eci.arsw.blueprint.model.Point;
+import edu.eci.arsw.blueprint.persistence.BlueprintNotFoundException;
+import edu.eci.arsw.blueprint.persistence.BlueprintPersistenceException;
+import edu.eci.arsw.blueprint.persistence.impl.InMemoryBlueprintPersistence;
 import org.junit.Test;
 
 import java.util.Set;
