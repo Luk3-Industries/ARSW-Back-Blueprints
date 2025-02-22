@@ -74,5 +74,10 @@ public class BlueprintsServicesComponent implements BlueprintService {
     public Set<Blueprint> getBlueprintsByAuthor(String author) {
         return bpp.getBlueprintsByAuthor(author);
     }
-    
+
+    @Override
+    public void updateBlueprint(String author, String bpname, Blueprint bp) throws BlueprintPersistenceException, BlueprintNotFoundException {
+        bpp.updateBlueprint(author, bpname, bp);
+    }
+
 }

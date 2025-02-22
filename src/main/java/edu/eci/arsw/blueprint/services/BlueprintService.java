@@ -11,4 +11,5 @@ public interface BlueprintService {
     Set<Blueprint> getAllBlueprints();
     Blueprint getBlueprint(String author,String name) throws BlueprintNotFoundException;
     Set<Blueprint> getBlueprintsByAuthor(String author);
+    void updateBlueprint(String author,String  bpname,Blueprint bp) throws BlueprintNotFoundException, BlueprintPersistenceException;
 }

@@ -95,5 +95,24 @@ public class BlueprintAPIController {
                 .status(status)
                 .body(blueprint);
     }
+
+    @PutMapping("bluprints/{author}/{bpname}")
+    public ResponseEntity<String> updateBlueprint(@RequestBody Blueprint bp, @PathVariable String author, @PathVariable String bpname) {
+        HttpStatus status;
+        String message;
+        try {
+            bps.updateBlueprint(author, bpname, bp);
+            status = HttpStatus.OK;
+            message = "Blueprint updated successfully";
+        } catch (Exception e) {
+            logger.error("Error while updating a blueprint", e);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+            message = "Error while updating the blueprint";
+        }
+        return ResponseEntity
+                .status(status)
+                .body(message);
+    }
+
 }
 

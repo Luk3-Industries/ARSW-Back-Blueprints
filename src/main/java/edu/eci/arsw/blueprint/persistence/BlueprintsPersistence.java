@@ -21,7 +21,7 @@ public interface BlueprintsPersistence {
      * @throws BlueprintPersistenceException if a blueprint with the same name already exists,
      *    or any other low-level persistence error occurs.
      */
-    public void saveBlueprint(Blueprint bp) throws BlueprintPersistenceException;
+    void saveBlueprint(Blueprint bp) throws BlueprintPersistenceException;
     
     /**
      * 
@@ -30,7 +30,7 @@ public interface BlueprintsPersistence {
      * @return the blueprint of the given name and author
      * @throws BlueprintNotFoundException if there is no such blueprint
      */
-    public Blueprint getBlueprint(String author,String bprintname) throws BlueprintNotFoundException;
+    Blueprint getBlueprint(String author,String bprintname) throws BlueprintNotFoundException;
 
 
     /**
@@ -45,4 +45,14 @@ public interface BlueprintsPersistence {
      * @return all the blueprints of the given author
      */
     Set<Blueprint> getBlueprintsByAuthor(String author);
+
+    /**
+        * This method should update a blueprint.
+        * @param author blueprint's author
+        * @param bprintname blueprint's name
+        * @param bp the new blueprint
+        * @throws BlueprintNotFoundException if there is no such blueprint
+        * @throws BlueprintPersistenceException if any other low-level persistence error occurs.
+    */
+    void updateBlueprint(String author,String bprintname,Blueprint bp) throws BlueprintNotFoundException, BlueprintPersistenceException;
 }
