@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  *
@@ -25,7 +26,7 @@ import java.util.Set;
 @Service
 public class InMemoryBlueprintPersistence implements BlueprintsPersistence{
 
-    private final Map<Tuple<String,String>,Blueprint> blueprints=new HashMap<>();
+    private final ConcurrentHashMap<Tuple<String,String>,Blueprint> blueprints = new ConcurrentHashMap<>();
 
     public InMemoryBlueprintPersistence() {
         //load stub data
@@ -36,7 +37,7 @@ public class InMemoryBlueprintPersistence implements BlueprintsPersistence{
 
     @Override
     public void saveBlueprint(Blueprint bp) throws BlueprintPersistenceException {
-        if (blueprints.containsKey(new Tuple<>(bp.getAuthor(),bp.getName()))){
+        if (blueprints.putIfAbsent(new Tuple<>(bp.getAuthor(), bp.getName()), bp) != null) {
             throw new BlueprintPersistenceException("The given blueprint already exists: "+bp);
         }
         blueprints.put(new Tuple<>(bp.getAuthor(),bp.getName()), bp);
@@ -77,7 +78,7 @@ public class InMemoryBlueprintPersistence implements BlueprintsPersistence{
         if (!blueprints.containsKey(new Tuple<>(author, bprintname))) {
             throw new BlueprintNotFoundException("The given blueprint does not exist: " + author + " " + bprintname);
         }
-        blueprints.put(new Tuple<>(author, bprintname), bp);
+        blueprints.replace(new Tuple<>(author, bprintname), bp);
     }
 
 }

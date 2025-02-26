@@ -1,0 +1,16 @@
+### Análisis de Concurrencia
+
+1. **Condiciones de carrera identificadas**:
+   - Acceso concurrente a la colección de blueprints.
+   - Métodos de agregar y actualizar blueprints pueden causar inconsistencias si se accede simultáneamente.
+
+2. **Regiones críticas**:
+   - Métodos de persistencia y consulta en InMemoryBlueprintPersistence.
+
+### Solución aplicada
+
+1. **Colección thread-safe**:
+   - Se cambió la colección a ConcurrentHashMap para asegurar el acceso concurrente seguro.
+
+2. **Operaciones atómicas**:
+   - Se usaron métodos de agregación condicional atómicos como putIfAbsent() y replace() para evitar condiciones de carrera.
