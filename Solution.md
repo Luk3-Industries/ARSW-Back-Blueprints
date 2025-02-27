@@ -4,8 +4,9 @@
 1. [Integrantes](#integrantes)
 2. [Introducción](#introducción)
 3. [Procedimiento](#procedimiento)
-    1. [Introducción Anotaciones Springboot](#Introducción-Anotaciones-Springboot) 
-   2. [Parte I](#Parte-i)
+   1. [Parte I](#Parte-i)
+   2. [Parte II](#Parte-ii)
+   3. [Parte III](#Parte-iii)
 4. [Conclusiones](#conclusiones)
 
 ---
@@ -17,148 +18,98 @@
 ---
 
 ## Introducción
-En este laboratorio, se trabajó en la implementación de un sistema de gestión de planos utilizando el framework Spring para la inyección de dependencias. El objetivo principal fue configurar la aplicación para que funcione bajo un esquema de inyección de dependencias, implementar operaciones de consulta y registro de planos, y aplicar filtros para procesar los datos antes de retornarlos. Se exploraron conceptos clave de Spring, como la anotación @Autowired para la inyección de dependencias y la configuración de beans mediante archivos XML.
+**Introducción**
+
+El presente informe tiene como objetivo documentar el desarrollo de un componente 
+de API REST denominado *BlueprintsRESTAPI*, diseñado para gestionar los planos 
+arquitectónicos de una reconocida compañía de diseño. Este API, implementado 
+sobre el marco de trabajo Spring, permite la manipulación centralizada de los 
+planos mediante servicios estandarizados y desacoplados de la persistencia de 
+datos. A través de este ejercicio, se busca construir una infraestructura sólida que 
+permita ofrecer servicios HTTP seguros y eficientes, garantizando una correcta gestión 
+y exposición de los recursos, y resolviendo problemas de concurrencia en un entorno 
+de múltiples peticiones simultáneas.
 
 ---
 
 ## Procedimiento
-
----
-### Introducción Anotaciones Springboot
-> Este punto se adjuntó en otro repositorio, el cual se encuentra en el siguiente enlace [Introducción Anotaciones Springboot](https://github.com/MIGUEL-MOTTA-U/ARSW-4-Annotations)
-
 ### Parte I
-> #### 1. Configure la aplicación para que funcione bajo un esquema de inyección de dependencias, tal como se muestra en el diagrama anterior.
->
-> Lo anterior requiere:
->
-> * Agregar las dependencias de Spring.
-> * Agregar la configuración de Spring.
-> * Configurar la aplicación -mediante anotaciones- para que el esquema de persistencia sea inyectado al momento de ser creado el bean 'BlueprintServices'.
-> #### 2. Complete las operaciones getBluePrint() y getBlueprintsByAuthor(). Implemente todo lo requerido de las capas inferiores (por ahora, el esquema de persistencia disponible `InMemoryBlueprintPersistence`) agregando las pruebas correspondientes en `InMemoryPersistenceTest`.
-> 
-> #### 3. Haga un programa en el que cree (mediante Spring) una instancia de BlueprintServices, y rectifique la funcionalidad del mismo: registrar planos, consultar planos, registrar planos específicos, etc.
->
-> #### 4. Se quiere que las operaciones de consulta de planos realicen un proceso de filtrado, antes de retornar los planos consultados. Dichos filtros lo que buscan es reducir el tamaño de los planos, removiendo datos redundantes o simplemente submuestrando, antes de retornarlos. Ajuste la aplicación (agregando las abstracciones e implementaciones que considere) para que a la clase BlueprintServices se le inyecte uno de dos posibles 'filtros' (o eventuales futuros filtros). No se contempla el uso de más de uno a la vez:
->
-> * (A) Filtrado de redundancias: suprime del plano los puntos consecutivos que sean repetidos.
-> * (B) Filtrado de submuestreo: suprime 1 de cada 2 puntos del plano, de manera intercalada.
-> #### 5. Agrege las pruebas correspondientes a cada uno de estos filtros, y pruebe su funcionamiento en el programa de prueba, comprobando que sólo cambiando la posición de las anotaciones -sin cambiar nada más-, el programa retorne los planos filtrados de la manera (A) o de la manera (B).
-> 
-### Solución
-> ### Punto 1
-> Para resolver este ejercicio, tuvimos que configurar la configuración de aplicación de Sprinboot,
-> de modo que creamos un archivo en una carpeta de configuración llamado [`applicationContext.xml`](src/main/resources/applicationContext.xml) en el directorio `src/main/resources` y agregamos las siguientes líneas de código:
-> ```xml
-> <?xml version="1.0" encoding="UTF-8"?>
-> <beans xmlns="http://www.springframework.org/schema/beans"
-> xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-> xmlns:context="http://www.springframework.org/schema/context"
->
->        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
->           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
-> ">
->
->     <context:component-scan base-package="edu.eci.arsw" />
->
-> </beans>
-> ```
-> Luego, en la clase [`BlueprintServices`](src/main/java/edu/eci/arsw/blueprints/services/BlueprintsServices.java) agregamos la anotación `@Service` para que Springboot pueda inyectar la dependencia de la clase 
-> [`InMemoryBlueprintPersistence`](src/main/java/edu/eci/arsw/blueprints/persistence/impl/InMemoryBlueprintPersistence.java) en la clase `BlueprintServices`.:
-> 
-> 
-> #### Clase [`BlueprintServices`](src/main/java/edu/eci/arsw/blueprints/services/BlueprintsServices.java)
-> 
-> ```java
-> @Service
-> public class BlueprintsServices {
->     BlueprintsPersistence bpp;
->     /* Especificamos que se inyecte la dependencia de la clase InMemoryBlueprintPersistence dado 
->     que es la única implementación de la interfaz BlueprintsPersistence */
->     @Autowired
->     public BlueprintsServices(BlueprintsPersistence bpp) {
->         this.bpp = bpp;
->     }
-> }
-> ```
-> 
-> #### Clase [`InMemoryBlueprintPersistence`](src/main/java/edu/eci/arsw/blueprints/persistence/impl/InMemoryBlueprintPersistence.java)
-> ```java
-> @Service
-> public class InMemoryBlueprintPersistence implements BlueprintsPersistence {
-> // ...
-> }
-> ```
-> 
-> De esta manera se le especifica que es un servicio y que se inyecte la dependencia de la clase `InMemoryBlueprintPersistence` en la clase `BlueprintServices`.
-> 
-> Ahora lo implementamos en una clase de Main para verificar que la inyección de dependencias funcione correctamente:
-> ```java
-> public class Main {
->     public static void main(String[] args) throws Exception {
->         // Arrange
->         ApplicationContext ac = new ClassPathXmlApplicationContext("applicationContext.xml");
->         BlueprintsServices blueprintsServices = ac.getBean(BlueprintsServices.class);
->         Point[] pts=new Point[]{new Point(0, 0),new Point(10, 10)};
->         blueprintsServices.addNewBlueprint(new Blueprint("Santiago", "Monaliza", pts));
-> 
->         // Act
->         Blueprint bp = blueprintsServices.getBlueprint("Santiago", "Monaliza");
-> 
->         // Assert
->         System.out.println("The author is: " + bp.getAuthor() + " and the name is: " + bp.getName());
->         blueprintsServices.getBlueprintsByAuthor("Santiago");
->     }
-> }
-> ```
-> 
-> *Verificamos el resultado de la ejecución:*
-> 
-> ![](img/picture1.png)
->
-> Esto demuestra que la inyección de dependecias funciona correctamente.
-> 
 
-> ### Punto 2
-> Para resolver este ejercicio, tuvimos que completar las operaciones `getBlueprint()` y `getBlueprintsByAuthor()` en la clase `InMemoryBlueprintPersistence` 
-> y agregar las pruebas correspondientes en la clase [`InMemoryPersistenceTest`](src/test/java/edu/eci/arsw/blueprints/test/persistence/impl/InMemoryPersistenceTest.java)
-> y [`BlueprintsServicesTest`](src/test/java/edu/eci/arsw/blueprints/test/services/BluePrintsServiceTest.java).
+##### Problema
+> 1. Integre al proyecto base suministrado los Beans desarrollados en el ejercicio anterior.
+> Solo copie las clases, NO los archivos de configuración. Rectifique que se tenga 
+> correctamente configurado el esquema de inyección de dependencias con las anotaciones 
+> [`@Service`](https://www.baeldung.com/spring-component-repository-service) y [`@Autowired`](https://www.baeldung.com/spring-autowire).
 > 
-> Luego verificamos que las operaciones `getBlueprint()` y `getBlueprintsByAuthor()` funcionen correctamente ejecutando las pruebas al hacer la implementación:
+> 2. Modifique el bean de persistencia 'InMemoryBlueprintPersistence' para que por defecto se inicialice con al menos 
+> otros tres planos, y con dos asociados a un mismo autor.
 > 
-> ![](img/picture2.png)
+> 3. Configure su aplicación para que ofrezca el recurso `/blueprints`, de manera que cuando se le haga una 
+> petición `GET`, retorne en formato `jSON` el conjunto de todos los planos
+> 4. Verifique el funcionamiento de a aplicación lanzando la aplicación con maven
+> 5. Modifique el controlador para que ahora, acepte peticiones `GET` al recurso `/blueprints/{author}`, 
+> el cual retorne usando una representación jSON todos los planos realizados por el autor cuyo nombre 
+> sea `{author}`. Si no existe dicho autor, se debe responder con el código de error `HTTP 404`.
+> 6. Modifique el controlador para que ahora, acepte peticiones `GET` al recurso `/blueprints/{author}/{bpname}`, 
+> el cual retorne usando una representación `jSON` solo UN plano, en este caso el realizado por `{author}` y 
+> cuyo nombre sea `{bpname}`. De nuevo, si no existe dicho autor, se debe responder con el código de error 
+> `HTTP 404`.
+
+##### Solución
+> Para resolver este ejercicio, implementamos las anotaciones de `@Service` y `@RestController` en la clase 
+> [`BlueprintAPIController`](src/main/java/edu/eci/arsw/blueprint/controllers/BlueprintAPIController.java)
+> de modo que con la anotación de `@Service` se pueda inyectar el bean de tipo `BlueprintServices` y con la
+> anotación de `@RestController` se pueda exponer el recurso `/blueprints` para que cuando se haga una petición
+> `GET` retorne el conjunto de todos los planos en formato JSON. Además, se modificó el bean de persistencia
+> `InMemoryBlueprintPersistence` para que por defecto se inicialice con al menos otros tres planos, y con dos
+> asociados a un mismo autor.
+> ####  Clase [`BlueprintAPIController`](src/main/java/edu/eci/arsw/blueprint/controllers/BlueprintAPIController.java)
+> Esta clase recibe una dependencia inyectada que es una clase que implementa el servicio ofrecido en la interfaz
+> [`BlueprintServices`](src/main/java/edu/eci/arsw/blueprint/services/BlueprintService.java) y se encarga de
+> exponer los servicios REST para la gestión de planos arquitectónicos.
 > 
-> ![](img/picture3.png)
-
-> ### Punto 3
-> Para resolver este ejercicio creamos en la clase main diferentes metodos para probar la funcionalidad de la clase `BlueprintServices`:
-> Se puede verificar su funcionamiento en la clase [`Main`](src/main/java/edu/eci/arsw/blueprints/Main.java)
-
-> ### Punto 4
-> Para resolver esto primero creamos la interfaz `BlueprintsFilter` en el paquete `edu.eci.arsw.blueprints.filter` y luego creamos las clases `RedundancyFilter` y `SubsamplingFilter` que implementan la interfaz `BlueprintsFilter`.
-> La clase [`RedundancyFilter`](src/main/java/edu/eci/arsw/blueprints/services/impl/RedundancyFilter.java) se encarga de eliminar los puntos consecutivos que sean repetidos. 
-> Mientras que la clase [`SubsamplingFilter`](src/main/java/edu/eci/arsw/blueprints/services/impl/SubsamplingFilter.java) se encarga de eliminar 1 de cada 2 puntos del plano, de manera intercalada.
-
-> ### Punto 5
-> La interfaz mencionada en el anterior punto se creo para poder más adelante poder hacer la inyección de dependencias en la clase `BlueprintServices` de uno de los dos filtros. 
-> Después realizamos la inyección por constructor de las diferentes clases de filtro en la clase `BlueprintServices`:
-> ```java
-> @Service
-> public class BlueprintsServices {
+> ![](img/solution/picture1.png)
+> 
 >
->    BlueprintsPersistence bpp;
->    private BlueprintFilter blueprintFilter;
+> #### Clase [`BlueprintServices`](src/main/java/edu/eci/arsw/blueprint/services/BlueprintService.java)
+> Esta interfaz define los servicios que se ofrecen para la gestión de planos arquitectónicos.
+> ![](img/solution/picture2.png)
 >
->    @Autowired
->    public BlueprintsServices(BlueprintsPersistence bpp, @Qualifier("redundancyFilter") BlueprintFilter blueprintFilter) {
->        this.bpp = bpp;
->        this.blueprintFilter = blueprintFilter;
->    }
-> // ...
-> }
-### Conclusiones
-Conclusiones
-1. Inyección de Dependencias: La configuración de la inyección de dependencias mediante Spring permite desacoplar las clases y facilita la gestión de las dependencias, mejorando la mantenibilidad y escalabilidad del código.
-2. Configuración de Spring: La correcta configuración de Spring, tanto mediante anotaciones como mediante archivos XML, es crucial para el funcionamiento adecuado de la inyección de dependencias y la detección de beans.
-3. Pruebas Unitarias: La importancia de las pruebas unitarias se evidenció al verificar la funcionalidad de las operaciones implementadas, asegurando que el sistema se comporte según lo esperado.
-4. Flexibilidad y Extensibilidad: El uso de interfaces y la inyección de dependencias permiten que el sistema sea flexible y extensible, facilitando la adición de nuevas funcionalidades o la modificación de las existentes sin afectar el resto del sistema.
+>
+> #### Clase [`BlueprintServiceComponent`](src/main/java/edu/eci/arsw/blueprint/services/impl/BlueprintsServicesComponent.java)
+> Esta clase implementa la interfaz `BlueprintServices` y se encarga de la lógica de negocio de los servicios
+> ofrecidos para la gestión de planos arquitectónicos.
+> ![](img/solution/picture3.png)
+> 
+> 
+> #### Clase [`InMemoryBlueprintPersistence`](src/main/java/edu/eci/arsw/blueprint/persistence/impl/InMemoryBlueprintPersistence.java)
+> Esta clase implementa la interfaz `BlueprintPersistence` y se encarga de la persistencia de los planos arquitectónicos
+> en memoria y es inyectada en la clase `BlueprintServiceComponent` usando la misma metodología que ofrecen las anotaciones de Spring.
+> ![](img/solution/picture4.png)
+> 
+> #### Clase [`Config`](src/main/java/edu/eci/arsw/blueprint/config/Config.java)
+> Esta clase se encarga de la configuración de la aplicación y de la inyección de dependencias de los beans necesarios para el correcto
+> funcionamiento de la aplicación. En esta clase se configura el bean de tipo `BlueprintPersistence` para que se inyecte en la clase
+> `BlueprintServiceComponent` y se inicialice con al menos otros tres planos, y con dos asociados a un mismo autor (juan).
+> 
+> ![](img/solution/picture5.png)
+>
+> #### Pruebas con Postman
+> Para hacer las pruebas del controlador, usamos [`Postman`](https://www.postman.com/)
+> #### Prueba con Get all blueprints
+> ![](img/solution/picture6.png)
+>
+> #### Prueba con Get blueprints por `author`
+> ![](img/solution/picture7.png)
+>
+> #### Prueba con Get blueprint por `author` y `name`
+> ![](img/solution/picture8.png)
+>
+>#### Prueba con Post para crear un Blueprint
+> ![](img/solution/picture9.png)
+> 
+### Parte II
+
+### Parte III
+
+## Conclusiones

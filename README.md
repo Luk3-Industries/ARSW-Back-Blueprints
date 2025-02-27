@@ -1,8 +1,14 @@
 ### Escuela Colombiana de Ingeniería
 
 ### Arquitecturas de Software
+### Integrantes
+- Santiago Avellaneda
+- Miguel Motta
 
 
+> [!IMPORTANT]
+> La entrega se anexó como el archivo [`Solution`](Solution.md)
+-------------
 
 #### API REST para la gestión de planos.
 
