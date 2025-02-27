@@ -4,9 +4,8 @@
 1. [Integrantes](#integrantes)
 2. [Introducción](#introducción)
 3. [Procedimiento](#procedimiento)
-   1. [Parte I](#Parte-i)
-   2. [Parte II](#Parte-ii)
-   3. [Parte III](#Parte-iii)
+   1. [Parte I y II](#Parte-i-y-ii)
+   2. [Parte III](#Parte-iii)
 4. [Conclusiones](#conclusiones)
 
 ---
@@ -33,7 +32,7 @@ de múltiples peticiones simultáneas.
 ---
 
 ## Procedimiento
-### Parte I
+### Parte I y II
 
 ##### Problema
 > 1. Integre al proyecto base suministrado los Beans desarrollados en el ejercicio anterior.
@@ -107,9 +106,11 @@ de múltiples peticiones simultáneas.
 >
 >#### Prueba con Post para crear un Blueprint
 > ![](img/solution/picture9.png)
-> 
-### Parte II
-
+>
 ### Parte III
+La solución se encuentra eplicada en ANALISIS_CONCURRENCIA.txt
 
 ## Conclusiones
+1. Inyección de Dependencias: La utilización de anotaciones como @Service y @Autowired en Spring Boot facilita la inyección de dependencias, permitiendo un desarrollo más modular y desacoplado. Esto mejora la mantenibilidad y escalabilidad del código.
+2. Desarrollo de API REST: La implementación de un API REST con Spring Boot permite exponer servicios de manera eficiente y estandarizada. La correcta configuración de los controladores y la gestión de las peticiones HTTP son fundamentales para ofrecer un servicio robusto y confiable. 
+3. Concurrencia: En un entorno concurrente, es esencial identificar y resolver las condiciones de carrera para evitar inconsistencias en los datos. El uso de colecciones thread-safe y operaciones atómicas puede mejorar significativamente el rendimiento y la seguridad del API.
