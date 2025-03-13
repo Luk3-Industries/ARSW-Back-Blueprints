@@ -15,56 +15,127 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Configuration
 public class Config {
     private final Logger logger = LoggerFactory.getLogger(Config.class);
+
     @Bean
     public InMemoryBlueprintPersistence inMemoryBlueprintPersistence() {
         InMemoryBlueprintPersistence response = new InMemoryBlueprintPersistence();
-        Point[] pts = new Point[]{new Point(140, 140), new Point(115, 115)};
-        try{
+        Point[] pts = new Point[] { new Point(140, 140), new Point(115, 115) };
+        try {
             response.saveBlueprint(new Blueprint("juan", "paint 1", pts));
             response.saveBlueprint(new Blueprint("juan", "paint 2", pts));
             response.saveBlueprint(new Blueprint("_authorname_3_", "_bpname_3", pts));
 
             // otros datos
-            Point[] pts1 = new Point[]{
-                    new Point(100, 100), new Point(150, 120),
-                    new Point(200, 140), new Point(250, 160),
-                    new Point(300, 180), new Point(350, 200),
-                    new Point(400, 220)
+            Point[] pts1 = new Point[] {
+                    new Point(250, 200), // A
+                    new Point(150, 200), // B
+                    new Point(200, 250), // C
+                    new Point(250, 200), // D
+                    new Point(150, 100), // E
+                    new Point(250, 100), // F
+                    new Point(150, 200) // G
             };
-            response.saveBlueprint(new Blueprint("leonardo", "casa", pts1));
+            response.saveBlueprint(new Blueprint("leonardo", "corbata", pts1));
 
-            Point[] pts2 = new Point[]{
-                    new Point(50, 50), new Point(70, 80),
-                    new Point(90, 110), new Point(110, 140),
-                    new Point(130, 170), new Point(150, 200),
-                    new Point(170, 230), new Point(190, 260)
+            Point[] pts2 = new Point[] {
+                    new Point(100, 200), // A (frontal del carro)
+                    new Point(300, 200), // B (frontal derecho)
+                    new Point(300, 150), // C (techo derecho)
+                    new Point(250, 130), // D (parabrisas derecho)
+                    new Point(150, 130), // E (parabrisas izquierdo)
+                    new Point(100, 150), // F (techo izquierdo)
+                    new Point(100, 200), // G (cierra la figura)
+
+                    // Rueda izquierda (un cuadrado)
+                    new Point(120, 220), // H
+                    new Point(150, 220), // I
+                    new Point(150, 250), // J
+                    new Point(120, 250), // K
+                    new Point(120, 220), // H (cierra la rueda)
+
+                    // Rueda derecha (un cuadrado)
+                    new Point(250, 220), // L
+                    new Point(280, 220), // M
+                    new Point(280, 250), // N
+                    new Point(250, 250), // O
+                    new Point(250, 220) // L (cierra la rueda)
             };
             response.saveBlueprint(new Blueprint("manuel", "carro", pts2));
 
-            Point[] pts3 = new Point[]{
-                    new Point(200, 200), new Point(220, 210),
-                    new Point(240, 220), new Point(260, 230),
-                    new Point(280, 240), new Point(300, 250),
-                    new Point(320, 260), new Point(340, 270),
-                    new Point(360, 280)
-            };
-            response.saveBlueprint(new Blueprint("sofia", "jirafa", pts3));
+            Point[] pts3 = new Point[] {
+                    new Point(100, 200), // A (base izquierda)
+                    new Point(300, 200), // B (base derecha)
+                    new Point(300, 100), // C (techo derecho)
+                    new Point(200, 50), // D (pico del techo)
+                    new Point(100, 100), // E (techo izquierdo)
+                    new Point(100, 200), // A (cierra la base)
 
-            Point[] pts4 = new Point[]{
-                    new Point(10, 10), new Point(30, 40),
-                    new Point(50, 70), new Point(70, 100),
-                    new Point(90, 130), new Point(110, 160),
-                    new Point(130, 190), new Point(150, 220)
+                    // Puerta (un rectángulo en el centro)
+                    new Point(175, 200), // F (puerta izquierda)
+                    new Point(225, 200), // G (puerta derecha)
+                    new Point(225, 150), // H (puerta arriba derecha)
+                    new Point(175, 150), // I (puerta arriba izquierda)
+                    new Point(175, 200) // F (cierra la puerta)
             };
-            response.saveBlueprint(new Blueprint("maria", "estrella", pts4));
+            response.saveBlueprint(new Blueprint("sofia", "casa", pts3));
 
-            Point[] pts5 = new Point[]{
-                    new Point(300, 100), new Point(310, 130),
-                    new Point(320, 160), new Point(330, 190),
-                    new Point(340, 220), new Point(350, 250),
-                    new Point(360, 280), new Point(370, 310)
+            Point[] pts4 = new Point[] {
+                    new Point(150, 200), // A (base izquierda de la cara)
+                    new Point(250, 200), // B (base derecha de la cara)
+                    new Point(250, 100), // C (parte superior derecha de la cara)
+                    new Point(200, 50), // D (oreja derecha)
+                    new Point(150, 100), // E (parte superior izquierda de la cara)
+                    new Point(100, 50), // F (oreja izquierda)
+                    new Point(150, 100), // E (conexión oreja izquierda con la cara)
+                    new Point(150, 200), // A (cierra la cara)
+
+                    // Ojos
+                    new Point(170, 150), // G (ojo izquierdo)
+                    new Point(180, 150), // H (ojo izquierdo derecho)
+                    new Point(220, 150), // I (ojo derecho)
+                    new Point(230, 150), // J (ojo derecho derecho)
+
+                    // Bigotes (líneas horizontales)
+                    new Point(130, 170), // K (bigote izquierdo extremo)
+                    new Point(170, 170), // G (conexión con la cara)
+                    new Point(130, 180), // L (bigote izquierdo medio)
+                    new Point(170, 180), // G (conexión con la cara)
+
+                    new Point(230, 170), // M (bigote derecho extremo)
+                    new Point(190, 170), // I (conexión con la cara)
+                    new Point(230, 180), // N (bigote derecho medio)
+                    new Point(190, 180) // I (conexión con la cara)
             };
-            response.saveBlueprint(new Blueprint("luis", "barco", pts5));
+            response.saveBlueprint(new Blueprint("maria", "gato", pts4));
+
+            Point[] pts5 = new Point[] {
+                    // Marco del televisor
+                    new Point(100, 100), // A (esquina superior izquierda)
+                    new Point(300, 100), // B (esquina superior derecha)
+                    new Point(300, 250), // C (esquina inferior derecha)
+                    new Point(100, 250), // D (esquina inferior izquierda)
+                    new Point(100, 100), // A (cierra el marco)
+
+                    // Pantalla
+                    new Point(130, 130), // E (esquina superior izquierda de la pantalla)
+                    new Point(270, 130), // F (esquina superior derecha de la pantalla)
+                    new Point(270, 220), // G (esquina inferior derecha de la pantalla)
+                    new Point(130, 220), // H (esquina inferior izquierda de la pantalla)
+                    new Point(130, 130), // E (cierra la pantalla)
+
+                    // Botones
+                    new Point(280, 160), // I (botón 1)
+                    new Point(280, 180), // J (botón 2)
+                    new Point(280, 200), // K (botón 3)
+
+                    // Antena
+                    new Point(150, 80), // L (antena izquierda)
+                    new Point(100, 50), // M (punto superior de la antena izquierda)
+
+                    new Point(250, 80), // N (antena derecha)
+                    new Point(300, 50) // O (punto superior de la antena derecha)
+            };
+            response.saveBlueprint(new Blueprint("luis", "tv", pts5));
         } catch (BlueprintPersistenceException e) {
             logger.error("Error while loading In Memory Blueprint Persistence blueprint", e);
         }
@@ -78,13 +149,12 @@ public class Config {
             public void addCorsMappings(CorsRegistry registry) {
                 logger.info("CORS enabled");
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:5173")
+                        .allowedOrigins("*")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true);
             }
         };
     }
-
 
 }
