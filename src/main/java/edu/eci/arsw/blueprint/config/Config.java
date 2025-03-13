@@ -22,7 +22,7 @@ public class Config {
         try{
             response.saveBlueprint(new Blueprint("juan", "paint 1", pts));
             response.saveBlueprint(new Blueprint("juan", "paint 2", pts));
-            response.saveBlueprint(new Blueprint("_authorname_3_", "_bpname_ 3  ", pts));
+            response.saveBlueprint(new Blueprint("_authorname_3_", "_bpname_3", pts));
 
             // otros datos
             Point[] pts1 = new Point[]{
