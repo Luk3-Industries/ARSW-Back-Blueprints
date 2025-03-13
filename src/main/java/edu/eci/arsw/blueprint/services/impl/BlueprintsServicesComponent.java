@@ -80,4 +80,9 @@ public class BlueprintsServicesComponent implements BlueprintService {
         bpp.updateBlueprint(author, bpname, bp);
     }
 
+    @Override
+    public void deleteBlueprint(String author, String name) throws BlueprintNotFoundException {
+        bpp.deleteBlueprint(author, name);
+    }
+
 }

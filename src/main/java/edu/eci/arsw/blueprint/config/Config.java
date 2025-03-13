@@ -26,10 +26,13 @@ public class Config {
 
             // otros datos
             Point[] pts1 = new Point[]{
-                    new Point(100, 100), new Point(150, 120),
-                    new Point(200, 140), new Point(250, 160),
-                    new Point(300, 180), new Point(350, 200),
-                    new Point(400, 220)
+                    new Point(250, 200), // A
+                    new Point(200, 200), // B
+                    new Point(200, 250), // C
+                    new Point(150, 200), // D
+                    new Point(150, 100), // E
+                    new Point(250, 100), // F
+                    new Point(250, 200)  // G (Mismo que A, cierra la figura)
             };
             response.saveBlueprint(new Blueprint("leonardo", "casa", pts1));
 

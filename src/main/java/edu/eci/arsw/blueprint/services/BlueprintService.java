@@ -12,4 +12,5 @@ public interface BlueprintService {
     Blueprint getBlueprint(String author,String name) throws BlueprintNotFoundException;
     Set<Blueprint> getBlueprintsByAuthor(String author);
     void updateBlueprint(String author,String  bpname,Blueprint bp) throws BlueprintNotFoundException, BlueprintPersistenceException;
+    void deleteBlueprint(String author,String name) throws BlueprintNotFoundException;
 }
