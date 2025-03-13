@@ -20,6 +20,48 @@ public class Config {
             response.saveBlueprint(new Blueprint("juan", "paint 1", pts));
             response.saveBlueprint(new Blueprint("juan", "paint 2", pts));
             response.saveBlueprint(new Blueprint("_authorname_3_", "_bpname_ 3  ", pts));
+
+            // otros datos
+            Point[] pts1 = new Point[]{
+                    new Point(100, 100), new Point(150, 120),
+                    new Point(200, 140), new Point(250, 160),
+                    new Point(300, 180), new Point(350, 200),
+                    new Point(400, 220)
+            };
+            response.saveBlueprint(new Blueprint("leonardo", "casa", pts1));
+
+            Point[] pts2 = new Point[]{
+                    new Point(50, 50), new Point(70, 80),
+                    new Point(90, 110), new Point(110, 140),
+                    new Point(130, 170), new Point(150, 200),
+                    new Point(170, 230), new Point(190, 260)
+            };
+            response.saveBlueprint(new Blueprint("manuel", "carro", pts2));
+
+            Point[] pts3 = new Point[]{
+                    new Point(200, 200), new Point(220, 210),
+                    new Point(240, 220), new Point(260, 230),
+                    new Point(280, 240), new Point(300, 250),
+                    new Point(320, 260), new Point(340, 270),
+                    new Point(360, 280)
+            };
+            response.saveBlueprint(new Blueprint("sofia", "jirafa", pts3));
+
+            Point[] pts4 = new Point[]{
+                    new Point(10, 10), new Point(30, 40),
+                    new Point(50, 70), new Point(70, 100),
+                    new Point(90, 130), new Point(110, 160),
+                    new Point(130, 190), new Point(150, 220)
+            };
+            response.saveBlueprint(new Blueprint("maria", "estrella", pts4));
+
+            Point[] pts5 = new Point[]{
+                    new Point(300, 100), new Point(310, 130),
+                    new Point(320, 160), new Point(330, 190),
+                    new Point(340, 220), new Point(350, 250),
+                    new Point(360, 280), new Point(370, 310)
+            };
+            response.saveBlueprint(new Blueprint("luis", "barco", pts5));
         } catch (BlueprintPersistenceException e) {
             logger.error("Error while loading In Memory Blueprint Persistence blueprint", e);
         }
