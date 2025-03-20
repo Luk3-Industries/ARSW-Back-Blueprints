@@ -114,5 +114,23 @@ public class BlueprintAPIController {
                 .body(message);
     }
 
+    @DeleteMapping("bluprints/{author}/{bpname}")
+    public ResponseEntity<String> deleteBlueprint(@PathVariable String author, @PathVariable String bpname) {
+        HttpStatus status;
+        String message;
+        try {
+            bps.deleteBlueprint(author, bpname);
+            status = HttpStatus.OK;
+            message = "Blueprint deleted successfully";
+        } catch (Exception e) {
+            logger.error("Error while deleting a blueprint", e);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+            message = "Error while deleting the blueprint";
+        }
+        return ResponseEntity
+                .status(status)
+                .body(message);
+    }
+
 }
 

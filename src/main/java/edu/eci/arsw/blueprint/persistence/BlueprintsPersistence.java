@@ -55,4 +55,12 @@ public interface BlueprintsPersistence {
         * @throws BlueprintPersistenceException if any other low-level persistence error occurs.
     */
     void updateBlueprint(String author,String bprintname,Blueprint bp) throws BlueprintNotFoundException, BlueprintPersistenceException;
+
+    /**
+     * This method should delete a blueprint.
+     * @param author the author of the blueprint
+     * @param name the name of the blueprint
+     * @throws BlueprintNotFoundException if there is no such blueprint
+     */
+    void deleteBlueprint(String author,String name) throws BlueprintNotFoundException;
 }
