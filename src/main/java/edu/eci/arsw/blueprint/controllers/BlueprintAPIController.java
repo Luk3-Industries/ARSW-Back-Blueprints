@@ -96,7 +96,7 @@ public class BlueprintAPIController {
                 .body(blueprint);
     }
 
-    @PutMapping("bluprints/{author}/{bpname}")
+    @PutMapping("blueprints/{author}/{bpname}")
     public ResponseEntity<String> updateBlueprint(@RequestBody Blueprint bp, @PathVariable String author, @PathVariable String bpname) {
         HttpStatus status;
         String message;
