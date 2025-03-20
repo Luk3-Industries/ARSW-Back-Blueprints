@@ -114,7 +114,7 @@ public class BlueprintAPIController {
                 .body(message);
     }
 
-    @DeleteMapping("bluprints/{author}/{bpname}")
+    @DeleteMapping("blueprints/{author}/{bpname}")
     public ResponseEntity<String> deleteBlueprint(@PathVariable String author, @PathVariable String bpname) {
         HttpStatus status;
         String message;
